@@ -1,0 +1,118 @@
+version: "3"
+# Listed here is the services we want to run.
+# We can modify the folder name to build the service - ie look for context: ./parking -> its look for parking folder with Dockerfile inside
+# We can change the port -> <EXPOSED PORT>:< INTERNAL PORT>, we uses exposed port to communicate to the service to make curl call or access from host
+# You can comment other service block if u want to tryout the particular service
+
+services:
+  parking:
+    build:
+      context: ./parking
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5050:5050
+    networks:
+      gmp-net:
+        aliases:
+          - parking
+
+  dashboard:
+    build:
+      context: ./dashboard
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5040:5040
+    networks:
+      gmp-net:
+        aliases:
+          - dashboard
+
+  payments:
+    build:
+      context: ./payments
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 4010:4010
+    networks:
+      gmp-net:
+        aliases:
+          - payments
+
+  authentication:
+    build:
+      context: ./authentication
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5000:5000
+    networks:
+      gmp-net:
+        aliases:
+          - authentication
+
+  # authentication:
+  #   build:
+  #     context: ./authentication
+  #     args:
+  #       ENVIRONMENT: local
+  #   ports:
+  #     - 5060:5060
+  #   networks:
+  #     gmp-net:
+  #       aliases:
+  #         - authentication
+
+  # authentication:
+  #   build:
+  #     context: ./authentication
+  #     args:
+  #       ENVIRONMENT: local
+  #   ports:
+  #     - 5000:5000
+  #   networks:
+  #     gmp-net:
+  #       aliases:
+  #         - authentication
+
+  # authentication:
+  #   build:
+  #     context: ./authentication
+  #     args:
+  #       ENVIRONMENT: local
+  #   ports:
+  #     - 5000:5000
+  #   networks:
+  #     gmp-net:
+  #       aliases:
+  #         - authentication
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+    networks:
+      gmp-net:
+        aliases:
+          - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.3
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+    networks:
+      gmp-net:
+        aliases:
+          - kibana
+
+volumes:
+  mysql_data: {}
+ 
+networks:
+  gmp-net:
+    driver: bridge
