@@ -2,8 +2,9 @@
 
 BASE="https://github.com/GetMyParking/"
 BRANCH="LocalSetUpTest"
-mkdir LocalTest
+mkdir -p LocalTest
 cp ./docker-compose.yaml ./LocalTest
+cp ./remove-prev-images.sh ./LocalTest
 cd LocalTest
 
 declare -a arr=("authorizations" "parking-session" "parking" "authentication" "tariff-engine" "offer-engine" "pass" "consumer-users" "dashboard" "payments")
@@ -11,7 +12,7 @@ echo "1. Authorizations \n2. Parking Session \n3. Parking \n4. Authentication \n
 
 for service in "${arr[@]}"
 do 
-    mkdir $service
+    mkdir -p $service
 done
 echo "Enter comma seperated values to skip"
 read -p "Enter Microservice to skip: "  skipIndex
