@@ -1,7 +1,8 @@
 #!/bin/bash
 
 BASE="https://github.com/GetMyParking/"
-BRANCH="LocalSetUpTest"
+#BRANCH="LocalSetUpTest"
+BRANCH="develop"
 mkdir -p LocalTest
 cp ./docker-compose.yaml ./LocalTest
 cp ./remove-prev-images.sh ./LocalTest
