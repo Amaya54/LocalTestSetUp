@@ -5,17 +5,53 @@ version: "3"
 # You can comment other service block if u want to tryout the particular service
 
 services:
-  parking:
+  authentication:
     build:
-      context: ./parking
+      context: ./authentication
       args:
         ENVIRONMENT: local
     ports:
-      - 5050:5050
+      - 5000:5000
     networks:
       gmp-net:
         aliases:
-          - parking
+          - authentication
+
+  authorizations:
+    build:
+      context: ./authorizations
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5010:5010
+    networks:
+      gmp-net:
+        aliases:
+          - authorizations
+
+  consumer-users:
+    build:
+      context: ./consumer-users
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5020:5020
+    networks:
+      gmp-net:
+        aliases:
+          - consumer-users
+
+  payments:
+    build:
+      context: ./payments
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5030:5030
+    networks:
+      gmp-net:
+        aliases:
+          - payments
 
   dashboard:
     build:
@@ -29,65 +65,65 @@ services:
         aliases:
           - dashboard
 
-  payments:
+  parking:
     build:
-      context: ./payments
+      context: ./parking
       args:
         ENVIRONMENT: local
     ports:
-      - 4010:4010
+      - 5050:5050
     networks:
       gmp-net:
         aliases:
-          - payments
+          - parking
 
-  authentication:
+  parking-session:
     build:
-      context: ./authentication
+      context: ./parking-session
       args:
         ENVIRONMENT: local
     ports:
-      - 5000:5000
+      - 5060:5060
     networks:
       gmp-net:
         aliases:
-          - authentication
+          - parking-session
 
-  # authentication:
-  #   build:
-  #     context: ./authentication
-  #     args:
-  #       ENVIRONMENT: local
-  #   ports:
-  #     - 5060:5060
-  #   networks:
-  #     gmp-net:
-  #       aliases:
-  #         - authentication
+  tariff-engine:
+    build:
+      context: ./tariff-engine
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5070:5070
+    networks:
+      gmp-net:
+        aliases:
+          - tariff-engine
 
-  # authentication:
-  #   build:
-  #     context: ./authentication
-  #     args:
-  #       ENVIRONMENT: local
-  #   ports:
-  #     - 5000:5000
-  #   networks:
-  #     gmp-net:
-  #       aliases:
-  #         - authentication
+  pass:
+    build:
+      context: ./pass
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5080:5080
+    networks:
+      gmp-net:
+        aliases:
+          - pass
 
-  # authentication:
-  #   build:
-  #     context: ./authentication
-  #     args:
-  #       ENVIRONMENT: local
-  #   ports:
-  #     - 5000:5000
-  #   networks:
-  #     gmp-net:
-  #       aliases:
-  #         - authentication
+  offer-engine:
+    build:
+      context: ./offer-engine
+      args:
+        ENVIRONMENT: local
+    ports:
+      - 5090:5090
+    networks:
+      gmp-net:
+        aliases:
+          - offer-engine
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3

@@ -59,7 +59,7 @@ function skip_build_deploy() {
 
     if [ -d $i/.git ]; 
       then 
-          pushd $i; git pull origin $BRANCH; popd; > /dev/null 2>&1
+          pushd $i; git reset --hard; git pull origin $BRANCH; popd; > /dev/null 2>&1
           echo $i " : Pulling Latest"
     else 
         git clone --single-branch --branch $BRANCH $BASE$i.git; > /dev/null 2>&1
@@ -68,6 +68,8 @@ function skip_build_deploy() {
 
     cd $i
     echo "################### $i : Build Creation in progress ######################"
+    sed -i '' -e "s/localhost/host.docker.internal/g" "./$i-application/src/main/resources/config/local/config.yaml"
+    sed -i '' -e "s/localhost/host.docker.internal/g" "./$i-application/src/main/resources/config/local/config.properties"
     sh ./local.sh > /dev/null 2>&1
     cd ..
     selectedServices+=($i)
