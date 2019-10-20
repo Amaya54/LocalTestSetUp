@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE="https://github.com/GetMyParking/"
+BASE="GetMyParking/"
 #BRANCH="LocalSetUpTest"
 BRANCH="develop"
 mkdir -p LocalTest
@@ -63,7 +63,7 @@ function skip_build_deploy() {
           pushd $i; git reset --hard; git pull origin $BRANCH; popd; > /dev/null 2>&1
           echo $i " : Pulling Latest"
     else 
-        git clone --single-branch --branch $BRANCH $BASE$i.git; > /dev/null 2>&1
+        git clone --single-branch --branch $BRANCH git@github.com:$BASE$i.git; > /dev/null 2>&1
         echo $i " : Getting Latest"
     fi
 
